@@ -1,24 +1,38 @@
 import './login.styl'
 import React from 'react'
-import { Form, Icon, Input, Button, Checkbox, Row, Col } from 'antd'
+import { connect } from 'react-redux'
+import { Form, Icon, Input, Button, Checkbox, Row, Col, message } from 'antd'
 import API from '@/api/api'
+import { saveUserInfo } from '@/store/action/login'
 class Login extends React.Component {
-  state = {
-    captcha: '',
-    userName: '',
-    passWord: ''
+  constructor(props) {
+    super(props)
+    this.state = {
+      captcha: '',
+      userName: '',
+      passWord: ''
+    }
   }
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
         console.log('Received values of form: ', values)
+        this.login(values)
       }
     })
   }
-  /*
-    获取验证码
-   */
+  login = async params => {
+    let data = await API.goLogin(params)
+    if (data.code === '02') {
+      message.warn(data.message)
+      this.getCaptchaCode()
+    } else {
+      this.props.saveUserInfo(data.data.admin)
+      this.props.history.replace('/')
+    }
+  }
+  // 验证码
   getCaptchaCode = async () => {
     let { data } = await API.getCaptchaCode()
     this.setState({ captcha: data })
@@ -110,4 +124,12 @@ class Login extends React.Component {
   }
 }
 const LoginForm = Form.create({ name: 'normal_login' })(Login)
-export default LoginForm
+const mapDispatchToProps = dispatch => {
+  return {
+    saveUserInfo: userInfo => dispatch(saveUserInfo(userInfo))
+  }
+}
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm)

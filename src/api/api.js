@@ -10,6 +10,13 @@ class API extends Server {
       throw err
     }
   }
+  async goLogin(params) {
+    try {
+      return await this.$httpPost('/login/submit', params)
+    } catch (err) {
+      throw err
+    }
+  }
 }
 
 export default new API()

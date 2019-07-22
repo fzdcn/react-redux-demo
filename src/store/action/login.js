@@ -1,4 +1,4 @@
-import * as user from './action-type'
+import * as user from '../actionType/login'
 
 // 保存用户消息
 export const saveUserInfo = userInfo => {
@@ -9,25 +9,10 @@ export const saveUserInfo = userInfo => {
 }
 
 // 修改用户信息
-export const saveAttrInfo = (datatype, value) => {
-  return {
-    type: user.SAVE_ATTRINFO,
-    datatype,
-    value
-  }
-}
-
-// 修改用户信息
 export const modifyUserInfo = (key, value) => {
   return {
     type: user.MODIFY_USERINFO,
     key,
     value
-  }
-}
-// test
-export const test = () => {
-  return {
-    type: user.test
   }
 }

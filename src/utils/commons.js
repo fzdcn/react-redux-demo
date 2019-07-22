@@ -32,9 +32,9 @@ export const removeStore = name => {
 
 export const baseURL = () => {
   if (process.env.NODE_ENV === 'development') {
-    return 'http://10.62.10.105:8085/admin'
+    return 'https://adminapi.95epay.com/admin'
   } else if (process.env.NODE_ENV === 'production') {
-    return 'https://eduweb.95epay.com/admin'
+    return 'https://adminapi.95epay.com/admin'
   }
 }
 

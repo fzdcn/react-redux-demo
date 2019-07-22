@@ -64,9 +64,7 @@ class Server extends React.Component {
   }
 
   $httpPost(url, params, isFormData) {
-    if (!isFormData) {
-      params = qs.stringify(params)
-    }
+    params = qs.stringify(params)
     return new Promise((resolve, reject) => {
       instance
         .post(url, params)

@@ -71,7 +71,7 @@ class RouteConfig extends Component {
     )
   }
 }
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return { token: state.userReducer.token }
 }
 
