@@ -5,7 +5,7 @@ import asyncComponent from '@/utils/asyncComponent'
 const login = asyncComponent(() => import('@/pages/login/Login'))
 const index = asyncComponent(() => import('@/pages/index/Index'))
 const about = asyncComponent(() => import('@/pages/about/About'))
-
+const nothing = asyncComponent(() => import('@/pages/nothing/Nothing'))
 let Routers = [
   {
     path: '/index',
@@ -26,12 +26,19 @@ let Routers = [
   {
     path: '/',
     name: 'index',
-    component: index
+    component: index,
+    auth: true
+  },
+  {
+    path: '/404',
+    name: '404',
+    component: nothing
   }
 ]
 class RouteConfig extends Component {
   constructor(props) {
     super(props)
+    console.log(props)
     this.state = {
       token: props.token
     }
@@ -65,14 +72,14 @@ class RouteConfig extends Component {
                 />
               )
             })}
+            <Route component={nothing} />
           </Switch>
         </HashRouter>
       </div>
     )
   }
 }
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return { token: state.userReducer.token }
 }
-
 export default connect(mapStateToProps)(RouteConfig)
