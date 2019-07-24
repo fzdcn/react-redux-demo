@@ -13,13 +13,13 @@ let Routers = [
     path: '/about',
     name: 'about',
     component: About,
-    auth: false
+    auth: true
   },
   {
     path: '/contact',
     name: 'contact',
     component: Contact,
-    auth: false
+    auth: true
   }
 ]
 export default Routers

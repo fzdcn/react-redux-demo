@@ -29,7 +29,11 @@ class Login extends React.Component {
       this.getCaptchaCode()
     } else {
       this.props.saveUserInfo(data.data.admin)
-      this.props.history.replace('/')
+      if (this.props.location.state) {
+        this.props.history.replace(this.props.location.state.from.pathname)
+      } else {
+        this.props.history.replace('/index')
+      }
     }
   }
   // 验证码
@@ -38,6 +42,7 @@ class Login extends React.Component {
     this.setState({ captcha: data })
   }
   componentDidMount() {
+    console.log(this.props)
     this.getCaptchaCode()
   }
   render() {

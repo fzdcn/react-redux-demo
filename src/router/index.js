@@ -1,12 +1,10 @@
 import React, { Component } from 'react'
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
-import { Layout, Menu, Icon, Button } from 'antd'
+import { HashRouter, Switch, Route } from 'react-router-dom'
 import { connect } from 'react-redux'
 import App from '@/App'
 import asyncComponent from '@/utils/asyncComponent'
 import AuthRouter from './AuthRouter'
 import Routes from './Routes'
-const { Sider, Content, Header } = Layout
 const Login = asyncComponent(() => import('@/pages/login/Login'))
 const Nothing = asyncComponent(() => import('@/pages/nothing/Nothing'))
 class RouteConfig extends Component {
