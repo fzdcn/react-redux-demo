@@ -5,8 +5,8 @@ let defaultState = {
     ? JSON.parse(sessionStorage.getItem('userInfo'))
     : {},
   token: sessionStorage.getItem('userInfo')
-    ? sessionStorage.getItem('userInfo').adminToken
-      ? sessionStorage.getItem('userInfo').adminToken
+    ? JSON.parse(sessionStorage.getItem('userInfo')).adminToken
+      ? JSON.parse(sessionStorage.getItem('userInfo')).adminToken
       : null
     : null
 }

@@ -1,85 +1,55 @@
 import React, { Component } from 'react'
 import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { Layout, Menu, Icon, Button } from 'antd'
 import { connect } from 'react-redux'
+import App from '@/App'
 import asyncComponent from '@/utils/asyncComponent'
-const login = asyncComponent(() => import('@/pages/login/Login'))
-const index = asyncComponent(() => import('@/pages/index/Index'))
-const about = asyncComponent(() => import('@/pages/about/About'))
-const nothing = asyncComponent(() => import('@/pages/nothing/Nothing'))
-let Routers = [
-  {
-    path: '/index',
-    name: 'index',
-    component: index,
-    auth: true
-  },
-  {
-    path: '/login',
-    name: 'login',
-    component: login
-  },
-  {
-    path: '/about',
-    name: 'about',
-    component: about
-  },
-  {
-    path: '/',
-    name: 'index',
-    component: index,
-    auth: true
-  },
-  {
-    path: '/404',
-    name: '404',
-    component: nothing
-  }
-]
+import AuthRouter from './AuthRouter'
+import Routes from './Routes'
+const { Sider, Content, Header } = Layout
+const Login = asyncComponent(() => import('@/pages/login/Login'))
+const Nothing = asyncComponent(() => import('@/pages/nothing/Nothing'))
 class RouteConfig extends Component {
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
-      token: props.token
+      token: props.token,
+      username: props.username
     }
   }
+  userLogout() {}
   render() {
     return (
       <div className="router">
         <HashRouter>
-          <Switch>
-            {Routers.map((item, index) => {
-              return (
-                <Route
-                  key={index}
-                  path={item.path}
-                  name={item.name}
-                  exact
-                  render={props =>
-                    !item.auth ? (
-                      <item.component {...props} />
-                    ) : this.state.token ? (
-                      <item.component {...props} />
-                    ) : (
-                      <Redirect
-                        to={{
-                          pathname: '/login',
-                          state: { from: props.location }
-                        }}
-                      />
-                    )
-                  }
-                />
-              )
-            })}
-            <Route component={nothing} />
-          </Switch>
+          <App>
+            <Switch>
+              <Route exact path="/" name="login" component={Login} />
+              <Route path="/login" name="login" component={Login} />
+              {/*登录权限控制组件*/}
+              {Routes.map((item, index) => {
+                return (
+                  <AuthRouter
+                    key={index}
+                    path={item.path}
+                    name={item.name}
+                    auth={item.auth}
+                    component={item.component}
+                  />
+                )
+              })}
+              <Route component={Nothing} />
+            </Switch>
+          </App>
         </HashRouter>
       </div>
     )
   }
 }
 const mapStateToProps = state => {
-  return { token: state.userReducer.token }
+  return {
+    token: state.userReducer.token,
+    username: state.userReducer.userInfo.username
+  }
 }
 export default connect(mapStateToProps)(RouteConfig)
