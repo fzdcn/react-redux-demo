@@ -32,6 +32,7 @@ class RouteConfig extends Component {
                     path={item.path}
                     name={item.name}
                     auth={item.auth}
+                    exact={true}
                     component={item.component}
                   />
                 )

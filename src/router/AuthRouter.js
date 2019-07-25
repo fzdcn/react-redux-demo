@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { Layout, Menu, Icon, Button } from 'antd'
 import { Route, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-const { Sider, Content } = Layout
+import SiderNav from '@/component/common/leftSlide/SiderNav'
+const { Sider, Header, Content } = Layout
 const { SubMenu } = Menu
 class AuthRouter extends Component {
   constructor(props) {
@@ -10,142 +11,73 @@ class AuthRouter extends Component {
     this.state = {
       token: props.token,
       username: props.username,
-      auth: props.auth
+      auth: props.auth,
+      collapsed: false
     }
   }
-  state = {
-    openKeys: [],
-    selectedKeys: []
-  }
-  handleOpenChange = keys => {
-    let openKeys = []
-    if (keys.length) {
-      openKeys = keys.slice(-1)
-    }
-    this.setState({ openKeys })
-  }
-  setHighLightKeys = props => {
-    const { pathname } = props.location
-    let selectedKey = ''
-    let openKey = ''
-    if (pathname) {
-      openKey = pathname.substr(1).split('/')[0]
-      selectedKey = pathname.substr(1).replace('/', '.')
-      // 对于类似 '/product/' 路由作特殊处理
-      if (selectedKey.substr(-1) === '.') {
-        selectedKey = selectedKey.substring(0, selectedKey.length - 1)
-      }
-    }
+  toggle = () => {
     this.setState({
-      openKeys: [openKey],
-      selectedKeys: [selectedKey]
+      collapsed: !this.state.collapsed
     })
   }
-
-  componentDidMount() {
-    console.log(this.props)
-    this.setHighLightKeys(this.props)
-  }
-
-  componentWillReceiveProps(nextProps) {
-    this.setHighLightKeys(nextProps)
-  }
   render() {
-    const { openKeys, selectedKeys } = this.state
     const { component: Component, ...rest } = this.props
     return (
       <div>
         <Layout>
-          <Button className="layout-header">
-            <h2 className="logo">欢迎你, {this.state.username}</h2>
-          </Button>
-        </Layout>
-        <Layout>
-          <Sider width={200}>
-            <Menu
-              mode="inline"
-              openKeys={openKeys}
-              selectedKeys={selectedKeys}
-              onOpenChange={this.handleOpenChange}
-              style={{ height: '100%', borderRight: 0 }}
-            >
-              <SubMenu
-                key="product"
-                title={
-                  <span>
-                    <Icon type="user" />
-                    商品管理
-                  </span>
-                }
-              >
-                <Menu.Item key="product">
-                  <NavLink to="/product">商品列表</NavLink>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="input"
-                title={
-                  <span>
-                    <Icon type="user" />
-                    自定义输入组件
-                  </span>
-                }
-              >
-                <Menu.Item key="input">
-                  <NavLink to="/input">自定义输入组件</NavLink>
-                </Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub2"
-                title={
-                  <span>
-                    <Icon type="laptop" />
-                    subnav 2
-                  </span>
-                }
-              >
-                <Menu.Item key="5">option5</Menu.Item>
-                <Menu.Item key="6">option6</Menu.Item>
-                <Menu.Item key="7">option7</Menu.Item>
-                <Menu.Item key="8">option8</Menu.Item>
-              </SubMenu>
-              <SubMenu
-                key="sub3"
-                title={
-                  <span>
-                    <Icon type="notification" />
-                    subnav 3
-                  </span>
-                }
-              >
-                <Menu.Item key="9">option9</Menu.Item>
-                <Menu.Item key="10">option10</Menu.Item>
-                <Menu.Item key="11">option11</Menu.Item>
-                <Menu.Item key="12">option12</Menu.Item>
-              </SubMenu>
-            </Menu>
-          </Sider>
-          <Content
-            style={{ margin: 24, minHeight: 280, backgroundColor: 'white' }}
+          <Sider
+            style={{
+              overflow: 'auto',
+              height: '100%',
+              position: 'fixed',
+              left: 0
+            }}
+            trigger={null}
+            collapsible
+            collapsed={this.state.collapsed}
+            width={200}
           >
-            <Route
-              {...rest}
-              render={props =>
-                !this.state.auth ? (
-                  <Component {...props} />
-                ) : this.state.token ? (
-                  <Component {...props} />
-                ) : (
-                  <Redirect
-                    to={{
-                      pathname: '/login',
-                      state: { from: props.location }
-                    }}
-                  />
-                )
-              }
-            />
-          </Content>
+            <SiderNav />
+          </Sider>
+          <Layout
+            style={
+              !this.state.collapsed ? { marginLeft: 200 } : { marginLeft: 80 }
+            }
+          >
+            <Header style={{ padding: 0, position: 'fixed', width: '100%' }}>
+              <Icon
+                style={styles.trigger}
+                className="trigger"
+                type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
+                onClick={this.toggle}
+              />
+            </Header>
+            <Content
+              style={{
+                padding: '20px 10px 20px',
+                overflow: 'initial',
+                marginTop: '64px'
+              }}
+            >
+              <Route
+                {...rest}
+                render={props =>
+                  !this.state.auth ? (
+                    <Component {...props} />
+                  ) : this.state.token ? (
+                    <Component {...props} />
+                  ) : (
+                    <Redirect
+                      to={{
+                        pathname: '/login',
+                        state: { from: props.location }
+                      }}
+                    />
+                  )
+                }
+              />
+            </Content>
+          </Layout>
         </Layout>
       </div>
     )
@@ -158,6 +90,16 @@ const mapStateToProps = state => {
   }
 }
 
+const styles = {
+  trigger: {
+    fontSize: '25px',
+    color: '#fff',
+    lineHeight: '64px',
+    padding: '0 24px',
+    cursor: 'pointer',
+    transition: 'color 0.3s'
+  }
+}
 export default connect(
   mapStateToProps,
   null
