@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Layout, Menu, Icon, Button } from 'antd'
 import { Route, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
-import SiderNav from '@/component/common/leftSlide/SiderNav'
+import CustomMenu from '@/component/common/CustomMenu'
 const { Sider, Header, Content } = Layout
 const { SubMenu } = Menu
 class AuthRouter extends Component {
@@ -32,12 +32,11 @@ class AuthRouter extends Component {
               position: 'fixed',
               left: 0
             }}
-            trigger={null}
-            collapsible
+            collapsible={true}
             collapsed={this.state.collapsed}
             width={200}
           >
-            <SiderNav />
+            <CustomMenu collapsed={this.state.collapsed} />
           </Sider>
           <Layout
             style={
