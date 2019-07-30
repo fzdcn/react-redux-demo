@@ -32,7 +32,6 @@ class AuthRouter extends Component {
               position: 'fixed',
               left: 0
             }}
-            collapsible={true}
             collapsed={this.state.collapsed}
             width={200}
           >

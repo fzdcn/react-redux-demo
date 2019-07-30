@@ -5,19 +5,19 @@ const Contact = asyncComponent(() => import('@/pages/contact/Contact'))
 let Routers = [
   {
     path: '/index',
-    name: 'index',
+    name: '/index',
     component: Index,
     auth: true
   },
   {
     path: '/about',
-    name: 'about',
+    name: '/about',
     component: About,
     auth: true
   },
   {
     path: '/contact',
-    name: 'contact',
+    name: '/contact',
     component: Contact,
     auth: true
   }
