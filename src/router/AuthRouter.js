@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon, Button } from 'antd'
+import { Layout, Menu, Icon, Button, Avatar } from 'antd'
 import { Route, Redirect, NavLink } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CustomMenu from '@/component/common/CustomMenu'
@@ -48,6 +48,12 @@ class AuthRouter extends Component {
                 className="trigger"
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
+              />
+              <Avatar
+                style={{ position: 'fixed', right: '20px' }}
+                size={40}
+                className="mt13"
+                icon="user"
               />
             </Header>
             <Content

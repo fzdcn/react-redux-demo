@@ -3,7 +3,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, message } from 'antd'
 import API from '@/api/api'
-import { saveUserInfo } from '@/store/action/login'
+import { saveUserInfo,saveMenu } from '@/store/action/login'
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -29,6 +29,7 @@ class Login extends React.Component {
       this.getCaptchaCode()
     } else {
       this.props.saveUserInfo(data.data.admin)
+      this.props.saveMenu(data.data.adminMenuList)
       if (this.props.location.state) {
         this.props.history.push(this.props.location.state.from.pathname)
       } else {
@@ -131,7 +132,8 @@ class Login extends React.Component {
 const LoginForm = Form.create({ name: 'normal_login' })(Login)
 const mapDispatchToProps = dispatch => {
   return {
-    saveUserInfo: userInfo => dispatch(saveUserInfo(userInfo))
+    saveUserInfo: userInfo => dispatch(saveUserInfo(userInfo)),
+    saveMenu: menuInfo => dispatch(saveMenu(menuInfo))
   }
 }
 export default connect(

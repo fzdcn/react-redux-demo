@@ -8,7 +8,10 @@ let defaultState = {
     ? JSON.parse(sessionStorage.getItem('userInfo')).adminToken
       ? JSON.parse(sessionStorage.getItem('userInfo')).adminToken
       : null
-    : null
+    : null,
+  menus: sessionStorage.getItem('menus')
+    ? JSON.parse(sessionStorage.getItem('menus'))
+    : []
 }
 
 // 用户消息
@@ -17,7 +20,7 @@ export default (state = defaultState, action = {}) => {
     case user.SAVE_USERINFO:
       action.userInfo
         ? sessionStorage.setItem('userInfo', JSON.stringify(action.userInfo))
-        : sessionStorage.setItem('userInfo', null)
+        : sessionStorage.setItem('userInfo', {})
 
       action.userInfo
         ? action.userInfo.adminToken
@@ -26,7 +29,20 @@ export default (state = defaultState, action = {}) => {
         : sessionStorage.setItem('token', null)
       return {
         ...state,
-        ...{ userInfo: action.userInfo, token: action.userInfo.adminToken }
+        ...{
+          userInfo: action.userInfo,
+          token: action.userInfo.adminToken
+        }
+      }
+    case user.SAVE_MENU:
+      action.menus[0].subs
+        ? sessionStorage.setItem('menus', JSON.stringify(action.menus[0].subs))
+        : sessionStorage.setItem('menus', [])
+      return {
+        ...state,
+        ...{
+          menus: action.menus[0].subs
+        }
       }
     default:
       return state

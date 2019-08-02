@@ -7,6 +7,13 @@ export const saveUserInfo = userInfo => {
     userInfo
   }
 }
+// 保存菜单栏目
+export const saveMenu = menus => {
+  return {
+    type: user.SAVE_MENU,
+    menus
+  }
+}
 
 // 修改用户信息
 export const modifyUserInfo = (key, value) => {
