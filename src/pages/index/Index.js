@@ -47,7 +47,6 @@ class Index extends Component {
   render() {
     return (
       <div>
-        {' '}
         <Table dataSource={dataSource} columns={columns} />
       </div>
     )

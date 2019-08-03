@@ -44,6 +44,13 @@ export default (state = defaultState, action = {}) => {
           menus: action.menus[0].subs
         }
       }
+    case user.LOGIN_OUT:
+      sessionStorage.removeItem('menus')
+      sessionStorage.removeItem('userInfo')
+      sessionStorage.removeItem('token')
+      return {
+        ...state
+      }
     default:
       return state
   }

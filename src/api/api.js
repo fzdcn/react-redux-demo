@@ -17,6 +17,13 @@ class API extends Server {
       throw err
     }
   }
+  async loginOut() {
+    try {
+      return await this.$httpGet('/login/logout', {})
+    } catch (err) {
+      throw err
+    }
+  }
 }
 
 export default new API()

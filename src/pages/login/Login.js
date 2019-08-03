@@ -31,9 +31,9 @@ class Login extends React.Component {
       this.props.saveUserInfo(data.data.admin)
       this.props.saveMenu(data.data.adminMenuList)
       if (this.props.location.state) {
-        this.props.history.push(this.props.location.state.from.pathname)
+        this.props.history.replace(this.props.location.state.from.pathname)
       } else {
-        this.props.history.push('/index')
+        this.props.history.replace('/index')
       }
     }
   }

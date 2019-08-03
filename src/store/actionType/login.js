@@ -1,4 +1,3 @@
-
 // 保存用户数据
 export const SAVE_USERINFO = 'SAVE_USERINFO'
 
@@ -6,5 +5,4 @@ export const SAVE_USERINFO = 'SAVE_USERINFO'
 export const SAVE_MENU = 'SAVE_MENU'
 
 // 修改用信息
-export const MODIFY_USERINFO = 'MODIFY_USERINFO'
-
+export const LOGIN_OUT = 'LOGIN_OUT'

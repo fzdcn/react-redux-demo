@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Layout, Menu, Icon, Button, Avatar } from 'antd'
-import { Route, Redirect, NavLink } from 'react-router-dom'
+import { Layout, Menu, Dropdown, Icon, Button, Avatar, message } from 'antd'
+import { Route, Redirect, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CustomMenu from '@/component/common/CustomMenu'
+import API from '@/api/api'
+import { loginOut } from '@/store/action/login'
 const { Sider, Header, Content } = Layout
 const { SubMenu } = Menu
 class AuthRouter extends Component {
@@ -19,6 +21,12 @@ class AuthRouter extends Component {
     this.setState({
       collapsed: !this.state.collapsed
     })
+  }
+  loginOut = async () => {
+    let data = await API.loginOut()
+    this.props.loginOut()
+    message.success(data.message)
+    this.props.history.replace('/login')
   }
   render() {
     const { component: Component, ...rest } = this.props
@@ -49,12 +57,23 @@ class AuthRouter extends Component {
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
               />
-              <Avatar
-                style={{ position: 'fixed', right: '20px' }}
-                size={40}
-                className="mt13"
-                icon="user"
-              />
+              <div style={{ position: 'fixed', right: '20px', top: '0px' }}>
+                <span className="fc-white ft16">
+                  欢迎&nbsp;&nbsp;{this.props.username}
+                </span>
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      <Menu.Item>
+                        <Button onClick={this.loginOut}>退出</Button>
+                      </Menu.Item>
+                    </Menu>
+                  }
+                >
+                  <Avatar size={40} className="ml20" icon="user" />
+                </Dropdown>
+                ,
+              </div>
             </Header>
             <Content
               style={{
@@ -93,6 +112,11 @@ const mapStateToProps = state => {
     username: state.userReducer.userInfo.username
   }
 }
+const mapDispatchToProps = dispatch => {
+  return {
+    loginOut: () => dispatch(loginOut())
+  }
+}
 
 const styles = {
   trigger: {
@@ -106,5 +130,5 @@ const styles = {
 }
 export default connect(
   mapStateToProps,
-  null
-)(AuthRouter)
+  mapDispatchToProps
+)(withRouter(AuthRouter))

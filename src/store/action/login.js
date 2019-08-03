@@ -15,11 +15,9 @@ export const saveMenu = menus => {
   }
 }
 
-// 修改用户信息
-export const modifyUserInfo = (key, value) => {
+// 退出
+export const loginOut = () => {
   return {
-    type: user.MODIFY_USERINFO,
-    key,
-    value
+    type: user.LOGIN_OUT
   }
 }
