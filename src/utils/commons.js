@@ -1,4 +1,3 @@
-import { createHashHistory } from 'history'
 /**
  * 存储localStoage
  * @param {*} name
@@ -37,5 +36,3 @@ export const baseURL = () => {
     return 'https://adminapi.95epay.com/admin'
   }
 }
-
-export const history = createHashHistory({})

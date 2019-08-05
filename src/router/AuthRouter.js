@@ -3,7 +3,7 @@ import { Layout, Menu, Dropdown, Icon, Button, Avatar, message } from 'antd'
 import { Route, Redirect, NavLink, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CustomMenu from '@/component/common/CustomMenu'
-import API from '@/api/api'
+import API from '@/api/Login'
 import { loginOut } from '@/store/action/login'
 const { Sider, Header, Content } = Layout
 const { SubMenu } = Menu
@@ -50,7 +50,14 @@ class AuthRouter extends Component {
               !this.state.collapsed ? { marginLeft: 200 } : { marginLeft: 80 }
             }
           >
-            <Header style={{ padding: 0, position: 'fixed', width: '100%' }}>
+            <Header
+              style={{
+                padding: 0,
+                position: 'fixed',
+                width: '100%',
+                zindex: '10'
+              }}
+            >
               <Icon
                 style={styles.trigger}
                 className="trigger"

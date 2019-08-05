@@ -1,7 +1,8 @@
 import React from 'react'
 import axios from 'axios'
 import { message } from 'antd'
-import { history, baseURL } from '@/utils/commons'
+import { baseURL } from '@/utils/commons'
+import { createHashHistory } from 'history'
 import qs from 'qs'
 
 axios.defaults.headers.post['Content-Type'] =
@@ -12,6 +13,12 @@ let config = {
 }
 const instance = axios.create(config)
 class Server extends React.Component {
+  bindAccessToken(params) {
+    let accessToken = sessionStorage.getItem('token')
+      ? sessionStorage.getItem('token')
+      : null
+    accessToken && (params['adminToken'] = accessToken)
+  }
   resolveResponse(data, resolve) {
     switch (data.code) {
       case '01':
@@ -19,14 +26,14 @@ class Server extends React.Component {
         break
       case '401':
         message.error(data.message)
-        if (history.location.pathname !== '/login') {
+        if (createHashHistory().location.pathname !== '/login') {
           //这里必须限制为非login页面
-          history.replace('/login')
+          createHashHistory().replace('/login')
         }
         break
       case '403':
         message.error(data.message)
-        history.replace('/403')
+        createHashHistory().replace('/403')
         break
       default:
         resolve(data)
@@ -49,6 +56,7 @@ class Server extends React.Component {
     }
   }
   $httpGet(url, params) {
+    this.bindAccessToken(params)
     return new Promise((resolve, reject) => {
       instance
         .get(url, {
@@ -64,6 +72,7 @@ class Server extends React.Component {
   }
 
   $httpPost(url, params, isFormData) {
+    this.bindAccessToken(params)
     params = qs.stringify(params)
     return new Promise((resolve, reject) => {
       instance

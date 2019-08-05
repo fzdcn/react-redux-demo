@@ -1,5 +1,5 @@
 import Server from './server'
-class API extends Server {
+class Login extends Server {
   /**
    *  用途：获取验证码
    */
@@ -26,4 +26,4 @@ class API extends Server {
   }
 }
 
-export default new API()
+export default new Login()

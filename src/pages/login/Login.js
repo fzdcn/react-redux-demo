@@ -2,8 +2,8 @@ import './login.styl'
 import React from 'react'
 import { connect } from 'react-redux'
 import { Form, Icon, Input, Button, Checkbox, Row, Col, message } from 'antd'
-import API from '@/api/api'
-import { saveUserInfo,saveMenu } from '@/store/action/login'
+import API from '@/api/Login'
+import { saveUserInfo, saveMenu } from '@/store/action/login'
 class Login extends React.Component {
   constructor(props) {
     super(props)
@@ -17,7 +17,6 @@ class Login extends React.Component {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
       if (!err) {
-        console.log('Received values of form: ', values)
         this.login(values)
       }
     })
@@ -43,7 +42,6 @@ class Login extends React.Component {
     this.setState({ captcha: data })
   }
   componentDidMount() {
-    console.log(this.props)
     this.getCaptchaCode()
   }
   render() {
