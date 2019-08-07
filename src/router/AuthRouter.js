@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import { Layout, Menu, Dropdown, Icon, Button, Avatar, message } from 'antd'
-import { Route, Redirect, NavLink, withRouter } from 'react-router-dom'
+import { Route, Redirect, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import CustomMenu from '@/component/common/CustomMenu'
 import API from '@/api/Login'
 import { loginOut } from '@/store/action/login'
 const { Sider, Header, Content } = Layout
-const { SubMenu } = Menu
 class AuthRouter extends Component {
   constructor(props) {
     super(props)

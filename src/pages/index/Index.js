@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
-import { Table, Tooltip } from 'antd'
+import { Table, Tooltip, Input, Select, Button } from 'antd'
 import API from '@/api/Index'
-
+const { Option } = Select
 class Index extends Component {
   state = {
+    form: {},
     pageNo: 1,
     total: null,
     dataSource: [],
@@ -46,7 +47,9 @@ class Index extends Component {
       }
     ]
   }
-
+  handleChange(value) {
+    console.log(`selected ${value}`)
+  }
   getTableData = async params => {
     let { data } = await API.getTableData(params)
     this.setState({
@@ -71,6 +74,33 @@ class Index extends Component {
   render() {
     return (
       <div>
+        <div>
+          <Button type="primary" icon="search">
+            Search
+          </Button>
+        </div>
+        <div className="search mt15 mb10">
+          <Input
+            className="mr10 mb10"
+            style={{ width: 160 }}
+            placeholder="系统模板号："
+          />
+          <Input
+            className="mr10 mb10"
+            style={{ width: 160 }}
+            placeholder="渠道模板号："
+          />
+          <Select
+            className="mr10 mb10"
+            style={{ width: 160 }}
+            onChange={this.handleChange}
+            placeholder="平台标识："
+          >
+            <Option value="jack">Jack</Option>
+            <Option value="lucy">Lucy</Option>
+            <Option value="Yiminghe">yiminghe</Option>
+          </Select>
+        </div>
         <Table
           bordered={true}
           rowKey="id"

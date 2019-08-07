@@ -39,25 +39,9 @@ class CustomMenu extends React.Component {
     )
   }
   onOpenChange = openKeys => {
-    //此函数的作用只展开当前父级菜单（父级菜单下可能还有子菜单）
-    console.log(openKeys)
     this.setState({
       openKeys
     })
-    // //最新展开的菜单
-    // const latestOpenKey = openKeys[openKeys.length - 1]
-    // //判断最新展开的菜单是不是父级菜单，若是父级菜单就只展开一个，不是父级菜单就展开父级菜单和当前子菜单
-    // //因为我的子菜单的key包含了父级菜单，所以不用像官网的例子单独定义父级菜单数组，然后比较当前菜单在不在父级菜单数组里面。
-    // //只适用于3级菜单
-    // if (latestOpenKey.includes(openKeys[0])) {
-    //   this.setState({
-    //     openKeys
-    //   })
-    // } else {
-    //   this.setState({
-    //     openKeys: [latestOpenKey]
-    //   })
-    // }
   }
   onClick = ({ key }) => {
     this.setState({ selectedKeys: [key] })
