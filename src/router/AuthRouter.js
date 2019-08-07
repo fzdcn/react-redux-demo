@@ -55,7 +55,7 @@ class AuthRouter extends Component {
                 padding: 0,
                 position: 'fixed',
                 width: '100%',
-                zindex: '10'
+                zIndex: '10'
               }}
             >
               <Icon
