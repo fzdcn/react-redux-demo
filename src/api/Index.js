@@ -7,6 +7,13 @@ class Index extends Server {
       throw err
     }
   }
+  async getPlatFormList(params) {
+    try {
+      return await this.$httpGet('/platformInfo/option', params)
+    } catch (err) {
+      throw err
+    }
+  }
 }
 
 export default new Index()

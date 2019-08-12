@@ -4,9 +4,12 @@ import API from '@/api/Index'
 const { Option } = Select
 class Index extends Component {
   state = {
-    form: {},
-    pageNo: 1,
+    current: 1,
     total: null,
+    templateCode: null,
+    platformId: null,
+    sysTemplateCode: null,
+    getPlatFormList: [],
     dataSource: [],
     columns: [
       {
@@ -47,35 +50,39 @@ class Index extends Component {
       }
     ]
   }
-  handleChange(value) {
-    console.log(`selected ${value}`)
-  }
-  getTableData = async params => {
+  getTableData = async (
+    params = {
+      pageNo: this.state.current,
+      pageSize: 10,
+      sysTemplateCode: this.state.sysTemplateCode,
+      templateCode: this.state.templateCode,
+      platformId: this.state.platformId
+    }
+  ) => {
     let { data } = await API.getTableData(params)
     this.setState({
       dataSource: data.list,
       total: data.total
     })
   }
+  getPlatFormList = async (params = {}) => {
+    let { data } = await API.getPlatFormList(params)
+    this.setState({
+      getPlatFormList: data
+    })
+  }
   onChange(pageNumber) {
-    this.setState({ pageNo: pageNumber }, () =>
-      this.getTableData({
-        pageNo: this.state.pageNo,
-        pageSize: 10
-      })
-    )
+    this.setState({ current: pageNumber }, () => this.getTableData())
   }
   handleSubmit = e => {
     e.preventDefault()
     this.props.form.validateFields((err, values) => {
-      console.log(err, values)
+      this.onChange(1)
     })
   }
   componentDidMount() {
-    this.getTableData({
-      pageNo: this.state.pageNo,
-      pageSize: 10
-    })
+    this.getTableData()
+    this.getPlatFormList()
   }
   render() {
     const { getFieldDecorator } = this.props.form
@@ -89,19 +96,39 @@ class Index extends Component {
           >
             <Form.Item label="系统模板号：">
               {getFieldDecorator('sysTemplateCode')(
-                <Input allowClear placeholder="请填写系统模板号" />
+                <Input
+                  onChange={e => {
+                    this.setState({ sysTemplateCode: e.target.value })
+                  }}
+                  allowClear
+                  placeholder="请填写系统模板号"
+                />
               )}
             </Form.Item>
             <Form.Item label="渠道模板号：">
               {getFieldDecorator('templateCode')(
-                <Input allowClear placeholder="请填写渠道模板号" />
+                <Input
+                  onChange={e => {
+                    this.setState({ templateCode: e.target.value })
+                  }}
+                  allowClear
+                  placeholder="请填写渠道模板号"
+                />
               )}
             </Form.Item>
             <Form.Item label="平台标识：">
               {getFieldDecorator('platformId')(
-                <Select allowClear>
-                  <Option value="male">male</Option>
-                  <Option value="female">female</Option>
+                <Select
+                  onChange={value => {
+                    this.setState({ platformId: value })
+                  }}
+                  placeholder="请填写平台标识"
+                  style={{ width: 213 }}
+                  allowClear
+                >
+                  {this.state.getPlatFormList.map(item => (
+                    <Option value={item.id}>{item.platformName}</Option>
+                  ))}
                 </Select>
               )}
             </Form.Item>
@@ -122,6 +149,8 @@ class Index extends Component {
           dataSource={this.state.dataSource}
           columns={this.state.columns}
           pagination={{
+            showQuickJumper: true,
+            current: this.state.current,
             total: this.state.total, //数据总数量
             pageSize: 10, //显示几条一页
             onChange: this.onChange.bind(this)
