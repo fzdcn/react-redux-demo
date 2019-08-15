@@ -78,7 +78,6 @@ class AuthRouter extends Component {
                 >
                   <Avatar size={40} className="ml20" icon="user" />
                 </Dropdown>
-                ,
               </div>
             </Header>
             <Content
