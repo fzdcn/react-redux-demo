@@ -126,8 +126,10 @@ class Index extends Component {
                   style={{ width: 213 }}
                   allowClear
                 >
-                  {this.state.getPlatFormList.map(item => (
-                    <Option value={item.id}>{item.platformName}</Option>
+                  {this.state.getPlatFormList.map((item, index) => (
+                    <Option key={index} value={item.id}>
+                      {item.platformName}
+                    </Option>
                   ))}
                 </Select>
               )}

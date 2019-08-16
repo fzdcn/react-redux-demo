@@ -58,7 +58,14 @@ class AuthRouter extends Component {
               }}
             >
               <Icon
-                style={styles.trigger}
+                style={{
+                  fontSize: '25px',
+                  color: '#fff',
+                  lineHeight: '64px',
+                  padding: '0 24px',
+                  cursor: 'pointer',
+                  transition: 'color 0.3s'
+                }}
                 className="trigger"
                 type={this.state.collapsed ? 'menu-unfold' : 'menu-fold'}
                 onClick={this.toggle}
@@ -123,16 +130,6 @@ const mapDispatchToProps = dispatch => {
   }
 }
 
-const styles = {
-  trigger: {
-    fontSize: '25px',
-    color: '#fff',
-    lineHeight: '64px',
-    padding: '0 24px',
-    cursor: 'pointer',
-    transition: 'color 0.3s'
-  }
-}
 export default connect(
   mapStateToProps,
   mapDispatchToProps
